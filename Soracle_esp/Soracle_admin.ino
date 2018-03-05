@@ -64,6 +64,23 @@ void modeAdmin(){
       }else{
         Serial.println("Wifi is not connected\nPlease type command 'connect' before 'server' command");
       }
+    }else if(serialStr.indexOf("post") == 0){
+      HTTPClient http;
+
+      http.begin("http://192.168.10.7/Soracle-server/soracle/post/?data=60");
+      int httpCode = http.GET();
+      String result = "";
+    
+      if (httpCode < 0) {
+        result = http.errorToString(httpCode);
+      }else if (http.getSize() < 0) {
+        result =  "size is invalid";
+      }else {
+        result = http.getString();
+      }
+      http.end();
+      
+      Serial.println(result);
     }else{
       Serial.println("no command");
     }

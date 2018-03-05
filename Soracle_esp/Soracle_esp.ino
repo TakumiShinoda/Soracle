@@ -4,15 +4,18 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <ESP8266WebServer.h>
+#include <ESP8266HTTPClient.h>
 
 #define WIFI_ID_MAX 5
 #define WIFI_TRYTIME 15
 
-#define MODE_PIN 12
+#define MODE_PIN 13
 #define SHUTTER_PIN 16
 
 ESP8266WiFiMulti wifi;
 ESP8266WebServer server(80);
+
+String powerV = "init";
 
 void getRequest() {
   Serial.println("recieve request");
@@ -20,6 +23,9 @@ void getRequest() {
 }
 
 void setup() {
+  pinMode(SHUTTER_PIN, OUTPUT);
+  digitalWrite(SHUTTER_PIN, LOW);
+  
   Serial.begin(9600);
   delay(2000);
   bool res = SPIFFS.begin();
@@ -60,6 +66,14 @@ void loop() {
     if(serialStr.indexOf("restart") == 0){
       Serial.println("rebooting");
       wait4reboot(2);
+    }else if(serialStr.indexOf("powerV") == 0){
+      powerV = split(serialStr, ' ', 1);
+    }else if(serialStr.indexOf("shutdown") == 0){
+      digitalWrite(SHUTTER_PIN, HIGH);
+    }else{
+      Serial.println("unknown command: " + serialStr);
     }
   }
+
+  serialStr = "";
 }
