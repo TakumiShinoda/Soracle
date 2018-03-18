@@ -4,7 +4,7 @@ void modeAdmin(){
   while(true){
     Serial.println("->");
     while(serialStr == ""){
-     serialStr = Serial.readStringUntil('\r'); 
+     serialStr = Serial.readStringUntil('\r');
     }
 
     if(serialStr.indexOf("list") == 0){
@@ -16,12 +16,12 @@ void modeAdmin(){
       String id = split(serialStr, ' ', 1);
       String ssid = split(serialStr, ' ', 2);
       String pass = split(serialStr, ' ', 3);
-  
+
       if(id != "" && ssid != "" && pass != "" && id.toInt() >= 1 && id.toInt() <= 5){
         writeSetting(id.toInt(), ssid +" "+ pass);
         Serial.println("write complete");
       }else{
-        Serial.println("wifi <number> <ssid> <pass>"); 
+        Serial.println("wifi <number> <ssid> <pass>");
       }
     }else if(serialStr.indexOf("connect") == 0){
       WiFi.mode(WIFI_STA);
@@ -35,7 +35,7 @@ void modeAdmin(){
 
         Serial.println("ssid: " + String(ssid));
         Serial.println("pass: " + String(pass));
-        
+
         wifi.addAP(ssid, pass);
       }
 
@@ -53,9 +53,13 @@ void modeAdmin(){
         wait4reboot(5);
       }
 
-      if(wifi.run() == WL_CONNECTED){
+      if(wifi.run() == WL_CONNECTED && WiFi.localIP().toString() != "0.0.0.0"){
         Serial.println("IP address: ");
         Serial.println(WiFi.localIP());
+      }else{
+        Serial.println("IP is not collect.");
+        Serial.println("ESP will reboot by 5seconds");
+        wait4reboot(5);
       }
     }else if(serialStr.indexOf("server") == 0){
       if(wifi.run() == WL_CONNECTED){
@@ -64,23 +68,9 @@ void modeAdmin(){
       }else{
         Serial.println("Wifi is not connected\nPlease type command 'connect' before 'server' command");
       }
-    }else if(serialStr.indexOf("post") == 0){
-      HTTPClient http;
-
-      http.begin("http://192.168.10.7/Soracle-server/soracle/post/?data=60");
-      int httpCode = http.GET();
-      String result = "";
-    
-      if (httpCode < 0) {
-        result = http.errorToString(httpCode);
-      }else if (http.getSize() < 0) {
-        result =  "size is invalid";
-      }else {
-        result = http.getString();
-      }
-      http.end();
-      
-      Serial.println(result);
+    }else if(serialStr.indexOf("get") == 0){
+      String url = split(serialStr, ' ', 1);
+      Serial.println(postData(url));
     }else{
       Serial.println("no command");
     }

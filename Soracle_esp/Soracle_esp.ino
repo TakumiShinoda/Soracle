@@ -68,7 +68,13 @@ void loop() {
       wait4reboot(2);
     }else if(serialStr.indexOf("powerV") == 0){
       powerV = split(serialStr, ' ', 1);
-      Serial.println("powerV：" + powerV);
+      if(powerV != ""){
+        Serial.print("POST status：");
+        Serial.println(postData("http://192.168.10.3/Soracle-server/soracle/post/?data=" + powerV));
+        Serial.println("powerV：" + powerV); 
+      }else{
+        Serial.println("powerV command needs a Paramater -> ex) powerV 20");
+      }
     }else if(serialStr.indexOf("shutdown") == 0){
       digitalWrite(SHUTTER_PIN, HIGH);
     }else{
@@ -76,5 +82,5 @@ void loop() {
     }
   }
 
-  serialStr = "";
+//  serialStr = "";
 }
