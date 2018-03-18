@@ -7,7 +7,13 @@
 * ソーラーパネル 5V 230mA 1.15W x4(並列(直列x2)x2)
 * 鉛電池 6V 4Ah
 * arduino pro mini => 太陽光測定、サーボの操作、バッテリー残量(電圧)の監視
-* esp8266 => arduinoから値を受け取りSPIFFSで保存、webサーバー
+* esp8266 => arduinoから値を受け取りSPIFFSで保存、自宅sqlサーバー
+* digispark(attiny85) => 電源の管理
+
+### サーバー構成
+* cakePHP
+* apache2
+* mysql3
 
 ### 測定レポート
 * 12V LEDモジュールx4、arduino pro mini、esp8266動作時の消費電流 => 約130mA
