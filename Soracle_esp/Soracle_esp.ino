@@ -68,6 +68,7 @@ void loop() {
       wait4reboot(2);
     }else if(serialStr.indexOf("powerV") == 0){
       powerV = split(serialStr, ' ', 1);
+      Serial.println("powerV：" + powerV);
     }else if(serialStr.indexOf("shutdown") == 0){
       digitalWrite(SHUTTER_PIN, HIGH);
     }else{
