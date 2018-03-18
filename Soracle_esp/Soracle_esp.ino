@@ -12,6 +12,8 @@
 #define MODE_PIN 13
 #define SHUTTER_PIN 16
 
+String IP = "192.168.10.3";
+
 ESP8266WiFiMulti wifi;
 ESP8266WebServer server(80);
 
@@ -70,7 +72,7 @@ void loop() {
       powerV = split(serialStr, ' ', 1);
       if(powerV != ""){
         Serial.print("POST status：");
-        Serial.println(postData("http://192.168.10.3/Soracle-server/soracle/post/?data=" + powerV));
+        Serial.println(postData("http://"+ IP +"/Soracle-server/soracle/post/?data=" + powerV));
         Serial.println("powerV：" + powerV); 
       }else{
         Serial.println("powerV command needs a Paramater -> ex) powerV 20");
@@ -81,6 +83,4 @@ void loop() {
       Serial.println("unknown command: " + serialStr);
     }
   }
-
-//  serialStr = "";
 }
