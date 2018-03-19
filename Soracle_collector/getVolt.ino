@@ -1,3 +1,4 @@
+// you can know operating time by (SUPPLYER_RESULT_FREQ * SUPPLYER_GET_FREQ) ms
 #define SUPPLYER_RESULT_FREQ 1000
 #define SUPPLYER_GET_FREQ 1 //ms
 
