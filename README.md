@@ -11,12 +11,16 @@
 * digispark(attiny85) => 電源の管理
 
 ### サーバー構成
+-- サーバリポジトリ=> https://github.com/TakumiShinoda/Soracle-LocalSerevr
 * cakePHP
 * apache2
 * mysql3
 
 ### 測定レポート
 * 12V LEDモジュールx4、arduino pro mini、esp8266動作時の消費電流 => 約130mA
+
+### 補足情報
+* arduino pro miniのbpsが設定の2倍になってしまう
 
 ### 課題点
 * esp8266の消費電力問題（ソフト面）
